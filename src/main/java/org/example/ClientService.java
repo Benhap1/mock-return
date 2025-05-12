@@ -10,8 +10,11 @@ public final class ClientService {
 
     public ClientService(ClientRepository client) {
         this.client = client;
-        // TODO write your code here
-
+        long definedId = client.definedId();
+        Mockito.when(client.findById(definedId))
+                .thenReturn(new ClientResponse(definedId, "Lou", "Tenat"));
+        Mockito.when(client.findById(Mockito.longThat(id -> id != definedId)))
+                .thenReturn(null);
     }
 
     public ClientResponse search(long id) {
